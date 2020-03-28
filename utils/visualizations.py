@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 from utils.metrics import get_curve_metrics, f1_max_threshold
-from sklearn.metrics import recall_score, precision_score, f1_score, precision_recall_curve, auc
-
+from sklearn.metrics import auc
 
 
 def plot_class_dist(df):
@@ -83,12 +82,8 @@ def plot_bic_slis_scores(n_clusters, bics, bics_err, sils, sils_err):
     fig.canvas.set_window_title('BIC and Silohuette scores')
     plt.show()
 
+
 def plot_recall_precision_curve_samples_scores(clf, X, y, clf_name):
-    """
-    input: clf Classifier, X Dataset, y Class labels and Classifier name
-    calculte plotting the precision-recall curve and the plotting score for each sample in X
-    Note: clf must implement 'score_samples' method.
-    """
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
 
     precisions, recalls, f1_scores, thresholds = get_curve_metrics(clf, X, y)
