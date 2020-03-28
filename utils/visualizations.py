@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+from utils.metrics import get_curve_metrics, f1_max_threshold
+from sklearn.metrics import recall_score, precision_score, f1_score, precision_recall_curve, auc
+
 
 
 def plot_class_dist(df):
@@ -79,3 +82,46 @@ def plot_bic_slis_scores(n_clusters, bics, bics_err, sils, sils_err):
     fig = plt.gcf()
     fig.canvas.set_window_title('BIC and Silohuette scores')
     plt.show()
+
+def plot_recall_precision_curve_samples_scores(clf, X, y, clf_name):
+    """
+    input: clf Classifier, X Dataset, y Class labels and Classifier name
+    calculte plotting the precision-recall curve and the plotting score for each sample in X
+    Note: clf must implement 'score_samples' method.
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
+
+    precisions, recalls, f1_scores, thresholds = get_curve_metrics(clf, X, y)
+    t, p, r, f1 = f1_max_threshold(precisions, recalls, f1_scores, thresholds)
+    area = auc(recalls, precisions)
+
+    ax1.plot(recalls, precisions, marker=',', label=clf_name)
+    ax1.axvline(r, linestyle='dashed', color='c')
+    ax1.axhline(p, linestyle='dashed', color='c')
+    ax1.set_title(f'Precision Recall Curve AUC: {area:.3f}', fontsize=14)
+    ax1.set_ylabel('Precision')
+    ax1.set_xlabel('Recall')
+    ax1.text(r + 0.01, p + 0.01, f'F1={str(round(f1, 3))}\nT={t:.3f}')
+    ax1.legend(loc='upper center')
+
+    scores = clf.score_samples(X)
+
+    frauds = scores[y[y == 1].index]
+    frauds_indices = y[y == 1].index
+    valid = scores[y[y == 0].index]
+    valid_indices = y[y == 0].index
+
+    ax2.scatter(valid_indices, valid, cmap='coolwarm', label=f'Valid {len(y[y == 0])}')
+    ax2.scatter(frauds_indices, frauds, cmap='coolwarm', label=f'Frauds {len(y[y == 1])}')
+    ax2.legend()
+    ax2.axhline(t, linestyle='dashed', color='red')
+    ax2.set_title('Score function', fontsize=14)
+    ax2.set_ylabel('Score')
+    ax2.set_xlabel('Sample')
+
+    fig = plt.gcf()
+    fig.canvas.set_window_title('precision_recall_sample_scores')
+
+    plt.show()
+
+

@@ -1,5 +1,5 @@
 import pandas as pd
-from visualizations import plot_class_dist, plot_time_amount_dist
+from utils.visualizations import plot_class_dist, plot_time_amount_dist
 
 
 DATA_SET_PATH = 'dataset/creditcard.csv'
