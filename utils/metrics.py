@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.metrics import classification_report
-from sklearn.metrics import recall_score, precision_score, f1_score, precision_recall_curve, auc
+from sklearn.metrics import precision_recall_curve
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score
 from warnings import filterwarnings
@@ -9,13 +9,13 @@ filterwarnings('ignore')
 
 def get_gmms_by_clusters(X, n_clusters, iterations, n_init=1):
     '''
-    :param X: Data set
+    :param X: Data frame of the data
     :param n_clusters: Range of clusters to fit
     :param iterations: Num of fits iteration in each cluster
     :param n_init: The number of initializations to perform. The best results are kept. default is 1
     :return: Dictionary: keys are clusters number. values are list of classifiers.
     '''
-    gmm_clfs = {} # dict for clf with n componnents and clf iterations
+    gmm_clfs = {}
     for n in n_clusters:
         print(f'fitting {n} clusters with {iterations} iterations')
         clfs = []
@@ -28,7 +28,7 @@ def get_gmms_by_clusters(X, n_clusters, iterations, n_init=1):
 
 def get_bic_sils_scores(X, n_clusters, iterations, n_init=1):
     '''
-    :param X: Data set
+    :param X: Data frame of the data
     :param gmm_clfs: Dictionary: keys are clusters number. values are list of classifiers.
     :param n_clusters: Range of clusters to fit
     :param iterations: Num of fits iteration in each cluster
@@ -59,13 +59,15 @@ def get_bic_sils_scores(X, n_clusters, iterations, n_init=1):
         sils_err.append(np.std(tmp_sil))
     return bics, bics_err, sils, sils_err
 
+
 def get_curve_metrics(clf, X, y):
-    """
-    input: clf Classifier, X Dataset, y Class labels
-    calculte precision, recall, f1 and threshold for each point in the precision-recall curve
-    return: tuple(precisions, recalls, f1_scores, thresholds)
+    '''
+    :param clf: Classifier
+    :param X: Data frame of the data
+    :param y: The response feature
+    :return: tuple(precisions, recalls, f1_scores, thresholds)
     Note: clf must implement 'score_samples' method.
-    """
+    '''
     scores = clf.score_samples(X)
     precisions, recalls, thresholds = precision_recall_curve(y, -1 * scores)
     f1_scores = [2 * r * p / (r + p)
@@ -76,11 +78,13 @@ def get_curve_metrics(clf, X, y):
 
 
 def f1_max_threshold(precisions, recalls, f1_scores, thresholds):
-    """
-    input: list of precision, list of recall, list of f1_scores, list of thresholds
-    calculte threshold based on max f1_score.
-    return: tuple(threshold, f1, precision, recall) at max f1_score
-    """
+    '''
+    :param precisions: list of possible precisions
+    :param recalls: list of possible recalls
+    :param f1_scores: list of possible f1 scores
+    :param thresholds: list of all possible thresholds
+    :return:
+    '''
     t = thresholds[np.argmax(f1_scores)]
     p = precisions[np.argmax(f1_scores)]
     r = recalls[np.argmax(f1_scores)]
@@ -90,6 +94,13 @@ def f1_max_threshold(precisions, recalls, f1_scores, thresholds):
 
 
 def x_test_evalute_report(clf, X_test, y_test, threshold):
+    '''
+    :param clf: Classifier
+    :param X_test: Data frame of the test data
+    :param y_test: The response feature of the test data
+    :param threshold: threshold for function score
+    :return:
+    '''
     scores = clf.score_samples(X_test)
     y_pred = scores.copy()
     y_pred[scores>threshold] = 0
