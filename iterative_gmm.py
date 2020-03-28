@@ -16,6 +16,11 @@ df = pd.read_csv(DATA_SET_PATH)
 
 
 def gmms_equal(clf1, clf2):
+    '''
+    :param clf1: gmm classifier
+    :param clf2: gmm classifier
+    :return: True if clf1 equal with his estimators to clf2
+    '''
     if np.array_equal(clf1.means_, clf2.means_) and \
             np.array_equal(clf1.covariances_, clf2.covariances_) and \
             np.array_equal(clf1.weights_, clf2.weights_):
