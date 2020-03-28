@@ -15,3 +15,11 @@ based on real-life data of credit card transaction. Due to the
 availability of the response(labels), after training the models we can
 evaluate the performance of each model. The performance of these two
 methods is discussed extensively in this paper.
+
+### Iterative GMM Results
+![Iterative GMM](report/graphs/output_55_0.png)
+
+### Iterative OnewClassSVM Results
+![Iterative OnewClassSVM](report/graphs/output_72_0.png)
+
+Check out Full [Notebook](notebooks/Transactions%20Anomaly%20Detection%20with%20Unsupervised%20Learning%20.ipynb) 
