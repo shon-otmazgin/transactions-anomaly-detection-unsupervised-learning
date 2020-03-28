@@ -17,6 +17,11 @@ df = pd.read_csv(DATA_SET_PATH)
 
 
 def svms_equal(clf1, clf2):
+    '''
+    :param clf1: onclasssvm classifier
+    :param clf2: onclasssvm classifier
+    :return: True if clf1 equal with his estimators to clf2
+    '''
     if np.array_equal(clf1.support_vectors_, clf2.support_vectors_) and \
        np.array_equal(clf1.dual_coef_, clf2.dual_coef_):
         return True
