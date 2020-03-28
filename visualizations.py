@@ -9,6 +9,8 @@ def plot_class_dist(df):
     ax.set_xticklabels(['Valid', 'Fruad'], rotation=0)
     ax.set_title('Class Distribution', fontsize=14)
 
+    fig = plt.gcf()
+    fig.canvas.set_window_title('Class Distribution')
     plt.show()
 
 
@@ -54,4 +56,6 @@ def plot_time_amount_dist(df):
     ax[2, 1].set_ylabel('Amount')
     ax[2, 1].set_xlabel('Time (in Seconds)')
 
+    fig = plt.gcf()
+    fig.canvas.set_window_title('Time and  Amount Distributions')
     plt.show()
