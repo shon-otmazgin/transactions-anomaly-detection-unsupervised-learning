@@ -1,4 +1,5 @@
 # Please install below Python packages before running the code.
+# using pip install -r requirements.in
 
 pandas>=1.0.0
 numpy>=1.18.1
