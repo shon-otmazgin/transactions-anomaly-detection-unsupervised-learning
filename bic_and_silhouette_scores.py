@@ -17,7 +17,8 @@ df = pd.read_csv(DATA_SET_PATH)
 if __name__ == '__main__':
     X, X_test, y, y_test = split_train_test(df=df)
 
-    print(f'Calculte BIC and Silhouette Score for {N_CLUSTERS} clusters')
+    print('Note: Running BIC and Silhouette Scores on the data could take 3 hours!')
+    print(f'Calculte BIC and Silhouette Scores for {N_CLUSTERS} clusters')
     bics, bics_err, sils, sils_err = get_bic_sils_scores(X=X,
                                                          n_clusters=N_CLUSTERS,
                                                          iterations=ITERATIONS,
