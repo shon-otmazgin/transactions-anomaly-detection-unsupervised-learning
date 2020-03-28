@@ -59,3 +59,23 @@ def plot_time_amount_dist(df):
     fig = plt.gcf()
     fig.canvas.set_window_title('Time and  Amount Distributions')
     plt.show()
+
+
+def plot_bic_slis_scores(n_clusters, bics, bics_err, sils, sils_err):
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
+
+    ax1.errorbar(n_clusters, bics, yerr=bics_err, label='BIC')
+    ax1.set_title("BIC Scores", fontsize=14)
+    ax1.set_ylabel("Score")
+    ax1.set_xlabel("N. of clusters")
+    ax1.legend()
+
+    ax2.errorbar(n_clusters, sils, yerr=sils_err, label='Silohuette')
+    ax2.set_title("Silhouette Scores", fontsize=14)
+    ax2.set_ylabel("Score")
+    ax2.set_xlabel("N. of clusters")
+    ax2.legend()
+
+    fig = plt.gcf()
+    fig.canvas.set_window_title('BIC and Silohuette scores')
+    plt.show()
