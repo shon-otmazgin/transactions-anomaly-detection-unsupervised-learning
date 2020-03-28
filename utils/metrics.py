@@ -87,3 +87,12 @@ def f1_max_threshold(precisions, recalls, f1_scores, thresholds):
     f1 = np.max(f1_scores)
 
     return t, p, r, f1
+
+
+def x_test_evalute_report(clf, X_test, y_test, threshold):
+    scores = clf.score_samples(X_test)
+    y_pred = scores.copy()
+    y_pred[scores>threshold] = 0
+    y_pred[scores<=threshold] = 1
+
+    print(classification_report(y_true=y_test, y_pred=y_pred))

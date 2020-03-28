@@ -125,3 +125,20 @@ def plot_recall_precision_curve_samples_scores(clf, X, y, clf_name):
     plt.show()
 
 
+def plot_recall_precision_change(recalls, precisions):
+    fig, ax1 = plt.subplots(1, 1, figsize=(7,4))
+
+    ax1.plot(recalls, label='Recall')
+    ax1.plot(precisions, label='Precision')
+    ax1.set_title('Recall-Precision Change', fontsize=14)
+    ax1.set_ylabel('Score')
+    ax1.set_xlabel('Iteration')
+    ax1.set_xticks(range(0,len(recalls), 2))
+    ax1.legend()
+
+    fig = plt.gcf()
+    fig.canvas.set_window_title('precision_recall_change')
+
+    plt.show()
+
+
